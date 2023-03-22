@@ -63,7 +63,32 @@
   :블록으로 쓰인 synchronized 키워드는 해당 블록이 오직 한 스레드만이 실행될 수 있도록 보장하여 블록 내부에 있는 코드가 모두 실행되기 전에 다른 스레드가 이 블록에 접근하는 것을   막아 공유 자원에 대한 경쟁 조건을 방지할 수 있지만, 과도한 사용은 성능에 악영향을 미칠 수 있으므로 최대한 적게 사용하는 것이 좋다고 한다. 
   특히 syncrhonized 블럭 내의 static method 호출은 교착상태를 일으킬 수 있다고 하니 더욱 주의해야 한다고 한다(https://url.kr/nk1c7x). 
   
-  11. 
+  11. 추가적으로, system.out에 대하여도 조사하였다. 
+    java.io 파일에는 PrintStream class가 정의되어 있다.
+    public class PrintStream extends FilterOutputStream implements Appendable, Closeable {
+	    ...
+  	  public void println(Object x) {
+    	  	...
+		   }
+	   }
+	    public void print(String s) {
+		   ...
+  	  }
+    	@overroad
+	   public void print(Object obj) {
+	    	...
+	    }
+    }
+  
+    한편, java.lang 파일에는 System class가 정의되어 있다.
+    public final class System {
+          ...
+         public static final PrintStream out = null;
+         ...
+    }
+    PrintStream 객체 out이 static으로 선언되어 있으므로 System 객체를 생성하지 않고 바로 System.out을 사용할 수 있다.
+  
+  12. 
 
 ## 2주차 배운 내용
 - 이곳에 작성하시면 됩니다.
